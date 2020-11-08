@@ -2,8 +2,7 @@ class Api::V1::MessagesController < ApplicationController
   before_action :set_channel
 
   def index
-    messages = Message.where(channel: @channel)
-    render json: messages
+    @messages = Message.where(channel: @channel)
   end
 
   def create
@@ -11,7 +10,6 @@ class Api::V1::MessagesController < ApplicationController
     message.user = current_user
     message.channel = @channel
     message.save
-    render json: message
   end
 
   private

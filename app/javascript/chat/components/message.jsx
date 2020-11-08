@@ -4,6 +4,9 @@ import {emojify} from 'react-emojione';
 class Message extends Component {
   hashCode = (str) => {
     var hash = 0;
+    if (str === undefined) {
+      debugger
+    }
     for (var i = 0; i < str.length; i++) {
        hash = str.charCodeAt(i) + ((hash << 5) - hash);
     }

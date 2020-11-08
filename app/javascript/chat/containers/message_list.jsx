@@ -40,7 +40,7 @@ class MessageList extends Component {
         <div className="message-list" ref={(list) => { this.list = list; }}>
           {messages.map(message => <Message message={message} key={message.id} />)}
         </div>
-        <MessageForm />
+        <MessageForm channel={ selectedChannel } />
       </div>
     );
   }
@@ -55,7 +55,6 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    selectedChannel: state.selectedChannel,
     messages: state.messages,
   };
 };

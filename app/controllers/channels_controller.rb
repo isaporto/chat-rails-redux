@@ -5,6 +5,7 @@ class ChannelsController < ApplicationController
     else
       @channel = Channel.find_by(name: params[:id])
       @channels = Channel.all
+      @messages = Message.where(channel: @channel)
     end
   end
 end

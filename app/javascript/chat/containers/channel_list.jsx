@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { selectChannel, fetchMessages } from '../actions/index';
+import { Link } from "react-router-dom";
 
 class ChannelList extends Component {
   componentWillReceiveProps(nextProps) {
@@ -12,29 +13,28 @@ class ChannelList extends Component {
     }
   }
 
-  handleClick = (channel) => {
-    this.props.selectChannel(channel);
-  }
-
-  renderChannel = (channel) => {
+  renderChannel = (ch) => {
+    const { selectedChannel } = this.props;
     return (
       <li
-        key={channel}
-        className={channel === this.props.selectedChannel ? 'active' : null}
-        onClick={() => this.handleClick(channel)}
+        key={ch}
+        className={selectedChannel === ch ? 'active' : null}
         role="presentation"
       >
-        #{channel}
+        <Link to={`/channels/${ch}`}>
+          #{ch}
+        </Link>
       </li>
     );
   }
 
-  render() {
+  render = () => {
+    const { channels } = this.props;
     return (
       <div className="channels-container">
         <span>Redux Chat</span>
         <ul>
-          {this.props.channels.map(this.renderChannel)}
+          { channels.map(this.renderChannel) }
         </ul>
       </div>
     );
@@ -43,8 +43,7 @@ class ChannelList extends Component {
 
 function mapStateToProps(state) {
   return {
-    channels: state.channels,
-    selectedChannel: state.selectedChannel
+    channels: state.channels
   };
 }
 

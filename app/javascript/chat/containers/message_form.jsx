@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createMessage } from '../actions/index';
+import { createMessage, fetchMessages } from '../actions/index';
 
 class MessageForm extends Component {
   constructor(props) {
@@ -19,13 +19,15 @@ class MessageForm extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.createMessage(this.props.selectedChannel, this.props.currentUser, this.state.value);
+    const { createMessage, channel } = this.props;
+    createMessage(channel, this.state.value);
+    this.props.fetchMessages(channel);
     this.setState({ value: '' }); // Reset message input
   }
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit} className="channel-editor">
+      <form onSubmit={this.handleSubmit} className="channel-editor" remote="true">
         <input
           ref={(input) => { this.messageBox = input; }}
           type="text"
@@ -41,13 +43,11 @@ class MessageForm extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ createMessage }, dispatch);
+  return bindActionCreators({ createMessage, fetchMessages }, dispatch);
 }
 
 function mapStateToProps(state) {
   return {
-    currentUser: state.currentUser,
-    selectedChannel: state.selectedChannel
   };
 }
 
